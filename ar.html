@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Mode | ARcade Navigator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 text-white">
+    <custom-navbar></custom-navbar>
+    
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">AR Navigation Mode</h1>
+            <div class="flex gap-4">
+                <button class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-full transition-all">
+                    <i data-feather="map"></i> Switch to Map
+                </button>
+                <button class="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-full transition-all">
+                    <i data-feather="settings"></i> Settings
+                </button>
+            </div>
+        </div>
+
+        <div class="ar-view-container relative rounded-2xl overflow-hidden h-96 bg-black mb-8">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <p class="text-gray-400">AR Camera View would appear here</p>
+            </div>
+            
+            <div class="ar-overlay absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-semibold">Central Park</h3>
+                        <p class="text-gray-300">0.5 miles remaining</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg font-medium">12 min</span>
+                        <i data-feather="arrow-up-right" class="text-indigo-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ar-controls grid grid-cols-4 gap-4 mb-8">
+            <button class="flex flex-col items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 p-4 rounded-xl transition-all">
+                <i data-feather="refresh-cw" class="w-6 h-6"></i>
+                <span>Recenter</span>
+            </button>
+            <button class="flex flex-col items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 p-4 rounded-xl transition-all">
+                <i data-feather="volume-2" class="w-6 h-6"></i>
+                <span>Voice</span>
+            </button>
+            <button class="flex flex-col items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 p-4 rounded-xl transition-all">
+                <i data-feather="camera" class="w-6 h-6"></i>
+                <span>Screenshot</span>
+            </button>
+            <button class="flex flex-col items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 p-4 rounded-xl transition-all">
+                <i data-feather="share-2" class="w-6 h-6"></i>
+                <span>Share</span>
+            </button>
+        </div>
+
+        <div class="ar-directions bg-gray-800 bg-opacity-60 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
+            <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                <i data-feather="list"></i> Turn-by-Turn Directions
+            </h2>
+            <div class="space-y-4">
+                <div class="direction-step flex items-start gap-4">
+                    <div class="step-icon bg-indigo-600 p-2 rounded-full">
+                        <i data-feather="arrow-up" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium">Continue straight</h3>
+                        <p class="text-gray-300 text-sm">0.2 miles on Main St</p>
+                    </div>
+                </div>
+                <div class="direction-step flex items-start gap-4">
+                    <div class="step-icon bg-indigo-600 p-2 rounded-full">
+                        <i data-feather="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium">Turn right</h3>
+                        <p class="text-gray-300 text-sm">Onto 5th Avenue</p>
+                    </div>
+                </div>
+                <div class="direction-step flex items-start gap-4">
+                    <div class="step-icon bg-indigo-600 p-2 rounded-full">
+                        <i data-feather="flag" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium">Destination</h3>
+                        <p class="text-gray-300 text-sm">Central Park entrance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <custom-footer></custom-footer>
+
+    <script src="components/navbar.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="script.js"></script>
+    <script>feather.replace();</script>
+</body>
+</html>

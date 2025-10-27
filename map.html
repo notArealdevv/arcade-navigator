@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map View | ARcade Navigator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+</head>
+<body class="bg-gray-900 text-white">
+    <custom-navbar></custom-navbar>
+    
+    <main class="relative">
+        <div id="map" class="h-screen w-full"></div>
+        
+        <div class="map-controls absolute top-4 right-4 z-10 flex flex-col gap-2">
+            <button class="bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-full shadow-lg transition-all">
+                <i data-feather="compass"></i>
+            </button>
+            <button class="bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-full shadow-lg transition-all">
+                <i data-feather="layers"></i>
+            </button>
+            <button class="bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-full shadow-lg transition-all">
+                <i data-feather="map-pin"></i>
+            </button>
+        </div>
+        
+        <div class="search-box absolute top-4 left-4 right-4 z-10">
+            <div class="relative max-w-xl mx-auto">
+                <input type="text" placeholder="Search for destination..." 
+                    class="w-full bg-gray-800 bg-opacity-80 backdrop-blur-sm text-white py-3 px-4 pr-12 rounded-full border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <button class="absolute right-3 top-3 text-gray-400 hover:text-white">
+                    <i data-feather="search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="map-bottom-sheet absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-80 backdrop-blur-sm rounded-t-3xl p-6 shadow-xl border-t border-gray-700 transform transition-transform duration-300">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Route to Central Park</h2>
+                <div class="flex items-center gap-2 text-indigo-400">
+                    <span>12 min</span>
+                    <i data-feather="clock"></i>
+                </div>
+            </div>
+            
+            <div class="flex gap-4 mb-6">
+                <button class="flex-1 flex flex-col items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-xl transition-all">
+                    <i data-feather="user"></i>
+                    <span>Walking</span>
+                </button>
+                <button class="flex-1 flex flex-col items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white py-3 px-4 rounded-xl transition-all">
+                    <i data-feather="bike"></i>
+                    <span>Biking</span>
+                </button>
+                <button class="flex-1 flex flex-col items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white py-3 px-4 rounded-xl transition-all">
+                    <i data-feather="car"></i>
+                    <span>Driving</span>
+                </button>
+                <button class="flex-1 flex flex-col items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white py-3 px-4 rounded-xl transition-all">
+                    <i data-feather="rotate-ccw"></i>
+                    <span>Reset</span>
+                </button>
+            </div>
+            
+            <div class="directions-list space-y-3 max-h-60 overflow-y-auto pr-2">
+                <div class="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-700">
+                    <div class="text-indigo-400">
+                        <i data-feather="arrow-up" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium">Continue straight on Main St</h3>
+                        <p class="text-sm text-gray-300">0.2 miles</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-700">
+                    <div class="text-indigo-400">
+                        <i data-feather="arrow-right" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium">Turn right onto 5th Avenue</h3>
+                        <p class="text-sm text-gray-300">0.3 miles</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-700">
+                    <div class="text-indigo-400">
+                        <i data-feather="flag" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium">Arrive at Central Park</h3>
+                        <p class="text-sm text-gray-300">Destination on your right</p>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-full transition-all flex items-center justify-center gap-2">
+                <i data-feather="navigation"></i> Start AR Navigation
+            </button>
+        </div>
+    </main>
+
+    <script src="components/navbar.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="script.js"></script>
+    <script>
+        feather.replace();
+        
+        // Initialize Google Map
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 40.7128, lng: -74.0060 },
+                zoom: 14,
+                styles: [
+                    {
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#242f3e"
+                            }
+                        ]
+                    },
+                    {
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#746855"
+                            }
+                        ]
+                    },
+                    {
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                            {
+                                "color": "#242f3e"
+                            }
+                        ]
+                    }
+                ]
+            });
+            
+            // Add a marker for current location
+            new google.maps.Marker({
+                position: { lat: 40.7128, lng: -74.0060 },
+                map,
+                title: "Your Location",
+                icon: {
+                    url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                }
+            });
+            
+            // Add a marker for destination
+            new google.maps.Marker({
+                position: { lat: 40.7829, lng: -73.9654 },
+                map,
+                title: "Central Park",
+                icon: {
+                    url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                }
+            });
+            
+            // Draw a route between points (simplified)
+            const directionsService = new google.maps.DirectionsService();
+            const directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                suppressMarkers: true,
+                polylineOptions: {
+                    strokeColor: "#818cf8",
+                    strokeOpacity: 0.8,
+                    strokeWeight: 6
+                }
+            });
+            
+            const request = {
+                origin: { lat: 40.7128, lng: -74.0060 },
+                destination: { lat: 40.7829, lng: -73.9654 },
+                travelMode: 'WALKING'
+            };
+            
+            directionsService.route(request, function(result, status) {
+                if (status == 'OK') {
+                    directionsRenderer.setDirections(result);
+                }
+            });
+        }
+        
+        initMap();
+    </script>
+</body>
+</html>
